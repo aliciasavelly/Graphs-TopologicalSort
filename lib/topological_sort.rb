@@ -16,28 +16,20 @@ def topological_sort(vertices)
 
   until queue.empty?
     current = queue.dequeue
-    # p current
-    # p "----"
     sorted << current
-    # p sorted
-    # p "----"
+
     current.out_edges.each do |edge|
-      # p edge.to_vertex
-      # p "---"
-      # p edge.to_vertex.in_edges
       edge_to_vertex = edge.to_vertex
-      # p edge_to_vertex
-      # p "---"
-      edge.destroy!
-      # p edge_to_vertex
-      # p "-----"
-      queue.enqueue(edge_to_vertex) if edge_to_vertex.in_edges.empty?
-      # p edge_to_vertex.in_edges
-      # vertices.delete(edge)
+      # edge.destroy!
+      # queue.enqueue(edge_to_vertex) if edge_to_vertex.in_edges.empty?
+      count = 0
+      edge_to_vertex.in_edges.each do |edge|
+        count += 1 unless sorted.include?(edge.from_vertex)
+      end
+      queue.enqueue(edge_to_vertex) if count == 0
     end
   end
-  # vertices.delete(current)
-  # p queue.empty?
+
   sorted
 end
 
